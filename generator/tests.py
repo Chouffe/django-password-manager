@@ -29,6 +29,5 @@ class ModelTest(TestCase):
             password = self.generator.generate()
         except GeneratorException, e:
             pass
-            # print e
         else:
             self.fail('Exception not thrown')
