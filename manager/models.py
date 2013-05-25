@@ -1,10 +1,9 @@
 from django.db import models
 import hashlib
-from Crypto.Cipher import AES, DES
+from Crypto.Cipher import DES
 from Crypto import Random
 
 
-# Create your models here.
 class Entry(models.Model):
     title = models.CharField(max_length=200)
     comment = models.TextField()
@@ -26,6 +25,7 @@ class CryptoEngine:
         self.mode = DES.MODE_ECB
         self.iv = Random.new().read(8)
         self.encryptor = DES.new(self.key, self.mode)
+        # TODO: uses AES instead of DES
         # self.encryptor = DES.new(self.key, self.mode, self.iv)
         # self.encryptor = AES.new(self.key, self.mode, self.iv)
 

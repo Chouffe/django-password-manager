@@ -2,6 +2,7 @@ from django.test import TestCase
 from models import Entry, CryptoEngine
 from datetime import datetime
 import random
+import base64
 
 
 class ModelTest(TestCase):
@@ -42,22 +43,8 @@ class CryptoEngineTest(TestCase):
     def setUp(self):
 
         self.engine = CryptoEngine(master_key='mykeyisawesome!')
-        self.text = 'abcdefgh'
         self.block_length = 8
-        self.texts = [self.text]
-
-        allowed_char = map(chr, range(97, 123))
-        allowed_char += map(chr, range(65, 91))
-        allowed_char += [str(i) for i in xrange(0, 10)]
-        allowed_char += map(chr, range(33, 47))
-
-        # Creates a lot of texts to be tested on
-        for i in xrange(100):
-            index = random.randint(0, len(allowed_char) - 1)
-            letter = allowed_char[index]
-            for j in xrange(random.randint(1, 10)):
-                self.texts += [self.texts[-1] +
-                               ''.join([letter for k in xrange(j)])]
+        self.texts = generate_texts(100)
 
     def test_padding(self):
         for t in self.texts:
@@ -65,7 +52,8 @@ class CryptoEngineTest(TestCase):
             self.assertEquals(len(padded_text) % self.block_length, 0)
 
     def test_unpadding(self):
-        self.assertEquals('abcd', self.engine._unpad_text('abcd     '))
+        for p, t in zip([t + '    ' for t in self.texts], self.texts):
+            self.assertEquals(t, self.engine._unpad_text(p))
 
     def test_encryption(self):
         self.assertEquals(len(self.engine.key), self.block_length)
@@ -74,3 +62,52 @@ class CryptoEngineTest(TestCase):
         for t in self.texts:
             cipher_text = self.engine.encrypt(t)
             self.assertEquals(self.engine.decrypt(cipher_text), t)
+
+
+class EncryptedPasswordsEntry(TestCase):
+
+    def setUp(self):
+        self.engine = CryptoEngine(master_key='mykeyisawesome!')
+        self.texts = generate_texts(100)
+
+    def test_save_entry_with_encrypted_key(self):
+
+        for i, password in enumerate(self.texts):
+
+            password_after_encryption = base64.b64encode(
+                self.engine.encrypt(password))
+            title = 'My Twitter Account: ' + str(i)
+            e = Entry(title=title, username='userName',
+                      url='twitter.com', password=password_after_encryption,
+                      comment='no comment')
+            e.save()
+
+            # Fetched the saved entry
+            f = Entry.objects.filter(title=title)[0]
+            password_decrypted = self.engine.decrypt(
+                base64.b64decode(f.password))
+
+            # self.assertEquals(password_after_encryption, f.password)
+            self.assertEquals(password_after_encryption, f.password)
+            self.assertEquals(password_decrypted, password)
+            f.delete()
+
+
+def generate_texts(limit):
+
+        allowed_char = map(chr, range(97, 123))
+        allowed_char += map(chr, range(65, 91))
+        allowed_char += [str(i) for i in xrange(0, 10)]
+        allowed_char += map(chr, range(33, 47))
+
+        min_length = 1
+        max_length = len(allowed_char) - 1
+
+        texts = []
+
+        for i in xrange(limit):
+            length = random.randint(min_length, max_length)
+            random.shuffle(allowed_char)
+            texts += [''.join(allowed_char[:length])]
+
+        return texts
