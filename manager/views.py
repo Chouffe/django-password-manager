@@ -3,6 +3,7 @@ from django.shortcuts import render
 from generator.models import Generator
 from manager.models import CryptoEngine, Entry
 from django.views.generic import DetailView
+from django.views.generic import CreateView
 
 
 engine = CryptoEngine(master_key='testofanewawesomekey')
@@ -36,3 +37,27 @@ class EntryDetailView(DetailView):
         context['decrypted_password'] = engine.decrypt(
             context['entry'].password)
         return context
+
+
+class EntryCreate(CreateView):
+    model = Entry
+    # fields = ['title', 'url', 'username', 'comment', 'expires']
+    template_name = 'manager/entry_create.html'
+    form_class = EntryForm
+    # success_url = todo
+
+    def post(self, request, *args, **kwargs):
+
+        form = EntryForm(request.POST)
+        if form.is_valid():
+            message = 'Hello World!!!!'
+            # send = True
+            entry = form.save(commit=False)
+            # entry.password = engine.encrypt(Generator(length=25).generate())
+            print form.cleaned_data
+            entry.password = engine.encrypt(form.cleaned_data['password'])
+            entry.save()
+            # return render(request, self.success_url, locals())
+        else:
+            form = EntryForm()
+        return render(request, self.template_name, locals())
