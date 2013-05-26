@@ -1,5 +1,5 @@
 from django.test import TestCase
-from models import Entry, CryptoEngine
+from models import Entry, CryptoEngine, Category
 from datetime import datetime
 import random
 import base64
@@ -13,8 +13,14 @@ class ModelTest(TestCase):
     def setUp(self):
         e = Entry(title='Twitter', username='userName', url='twitter.com',
                   password='passssss', comment='no comment')
-        e.save()
+        c = Category(title='Internet', parent=None)
+        e.category = c
+
         self.entry = e
+        self.category = c
+
+        c.save()
+        e.save()
 
     def test_create_entry(self):
 
@@ -36,6 +42,33 @@ class ModelTest(TestCase):
 
         self.entry.delete()
         self.assertEquals(len(Entry.objects.all()), 0)
+
+
+    def test_delete_category(self):
+
+        category = Category(title='Cat')
+        category.save()
+        entries = self._generate_entries(50)
+        self._assign_category(entries, category)
+        for e in entries:
+            e.save()
+            f = Entry.objects.filter(category=category)[0]
+            self.assertEquals(f.category_id, category.id)
+        id = category.id
+        category.delete()
+        self.assertEquals(len(Entry.objects.filter(category_id=id)), 0)
+
+    def _generate_entries(self, number):
+
+        entries = []
+        for i in xrange(number):
+            entries.append(Entry(title=str(i), password=str(i)))
+        return entries
+
+    def _assign_category(self, entries, category):
+
+        for e in entries:
+            e.category = category
 
 
 class CryptoEngineTest(TestCase):
@@ -84,8 +117,8 @@ class EncryptedPasswordsEntry(TestCase):
             # Fetched the saved entry
             f = Entry.objects.filter(title=title)[0]
             password_decrypted = self.engine.decrypt(f.password)
-            print password
-            print password_decrypted
+            # print password
+            # print password_decrypted
 
             # self.assertEquals(password_after_encryption, f.password)
             self.assertEquals(password_after_encryption, f.password)

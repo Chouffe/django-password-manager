@@ -6,6 +6,7 @@ import base64
 
 
 class Entry(models.Model):
+
     title = models.CharField(max_length=200)
     url = models.CharField(max_length=200, null=True, blank=True)
     username = models.CharField(max_length=200, null=True, blank=True)
@@ -13,6 +14,19 @@ class Entry(models.Model):
     comment = models.TextField(null=True, blank=True)
     expires = models.DateField(null=True, blank=True)
     date = models.DateField(auto_now_add=True)
+    category = models.ForeignKey('Category', null=True, blank=True)
+
+    def __unicode__(self):
+        return self.title
+
+
+class Category(models.Model):
+
+    title = models.CharField(max_length=200)
+    parent = models.ForeignKey('Category', null=True, blank=True)
+
+    def __unicode__(self):
+        return self.title
 
 
 class CryptoEngine:
