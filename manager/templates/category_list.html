@@ -1,0 +1,11 @@
+{% extends "base_generic.html" %}
+{% block content %}
+    {% for cat in categories %}
+        {{ cat.title }}
+        {% for e in cat.entry_set.all %}
+            {{ e.title }}
+        {% endfor %}
+    {% empty %}
+        No categories...
+    {% endfor %}
+{% endblock %}

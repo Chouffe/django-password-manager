@@ -11,7 +11,7 @@ engine = CryptoEngine(master_key='testofanewawesomekey')
 
 
 def template(request):
-    return render(request, 'template.html')
+    return render(request, 'base_generic.html')
 
 
 class EntryDetailView(DetailView):

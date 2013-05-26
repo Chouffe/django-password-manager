@@ -1,10 +1,12 @@
-Delete...
-
+{% extends "base_generic.html" %}
+{% block content %}
 <h1>Are you sure you wanna remove this?</h1>
-
+Delete...
 <p>{{ entry.title }}</p>
 
 <form method="post" action="">
     {% csrf_token %}  <!-- Do not forget this!!-->
     <input type="submit" value"yes delete me" />
 </form>
+{% endblock %}
+{% block title %}Delete Entry{% endblock %}
