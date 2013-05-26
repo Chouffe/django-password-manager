@@ -4,6 +4,7 @@ from generator.models import Generator
 from manager.models import CryptoEngine, Entry
 from django.views.generic import DetailView
 from django.views.generic import CreateView
+from django.views.generic import UpdateView
 
 
 engine = CryptoEngine(master_key='testofanewawesomekey')
@@ -61,3 +62,13 @@ class EntryCreate(CreateView):
         else:
             form = EntryForm()
         return render(request, self.template_name, locals())
+
+
+class EntryUpdate(UpdateView):
+
+    model = Entry
+    # fields = ['title', 'url', 'username', 'comment', 'expires']
+    template_name = 'manager/entry_update.html'
+    form_class = EntryForm
+    # FIXME
+    success_url = '../../home'
