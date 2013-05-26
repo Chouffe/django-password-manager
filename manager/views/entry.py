@@ -19,8 +19,9 @@ class EntryDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(EntryDetailView, self).get_context_data(**kwargs)
-        context['decrypted_password'] = engine.decrypt(
-            context['entry'].password)
+        decrypted = engine.decrypt(context['entry'].password)
+        print decrypted
+        context['decrypted_password'] = decrypted
         return context
 
 

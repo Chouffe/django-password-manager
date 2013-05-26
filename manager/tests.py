@@ -2,7 +2,6 @@ from django.test import TestCase
 from models import Entry, CryptoEngine, Category
 from datetime import datetime
 import random
-import base64
 
 
 class ModelTest(TestCase):
@@ -43,7 +42,6 @@ class ModelTest(TestCase):
         self.entry.delete()
         self.assertEquals(len(Entry.objects.all()), 0)
 
-
     def test_delete_category(self):
 
         category = Category(title='Cat')
@@ -71,25 +69,50 @@ class ModelTest(TestCase):
             e.category = category
 
 
+# class CryptoEngineTest(TestCase):
+#
+#     def setUp(self):
+#
+#         self.engine = CryptoEngine(master_key='mykeyisawesome!')
+#         self.block_length = 8
+#         self.texts = generate_texts(100)
+#
+#     def test_padding(self):
+#         for t in self.texts:
+#             padded_text = self.engine._pad_text(t)
+#             self.assertEquals(len(padded_text) % self.block_length, 0)
+#
+#     def test_unpadding(self):
+#         for p, t in zip([t + '    ' for t in self.texts], self.texts):
+#             self.assertEquals(t, self.engine._unpad_text(p))
+#
+#     def test_encryption(self):
+#         self.assertEquals(len(self.engine.key), self.block_length)
+#
+#     def test_decryption(self):
+#         for t in self.texts:
+#             cipher_text = self.engine.encrypt(t)
+#             self.assertEquals(self.engine.decrypt(cipher_text), t)
+
+
 class CryptoEngineTest(TestCase):
 
     def setUp(self):
 
         self.engine = CryptoEngine(master_key='mykeyisawesome!')
-        self.block_length = 8
+        self.block_length = 32
         self.texts = generate_texts(100)
 
     def test_padding(self):
         for t in self.texts:
-            padded_text = self.engine._pad_text(t)
+            padded_text = self.engine._pad(t)
             self.assertEquals(len(padded_text) % self.block_length, 0)
 
     def test_unpadding(self):
-        for p, t in zip([t + '    ' for t in self.texts], self.texts):
-            self.assertEquals(t, self.engine._unpad_text(p))
-
-    def test_encryption(self):
-        self.assertEquals(len(self.engine.key), self.block_length)
+        for p, t in zip([t + ''.join([self.engine.PADDING
+                                      for i in xrange(random.randint(1, 10))])
+                         for t in self.texts], self.texts):
+            self.assertEquals(t, self.engine._depad(p))
 
     def test_decryption(self):
         for t in self.texts:
