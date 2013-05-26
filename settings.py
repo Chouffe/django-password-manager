@@ -108,6 +108,7 @@ ROOT_URLCONF = 'password_manager.urls'
 
 TEMPLATE_DIRS = (
     '/home/chouffe/Documents/Django/password-manager/password_manager/templates/manager',
+    '/home/chouffe/Documents/Django/password-manager/password_manager/templates',
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.

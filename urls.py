@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import patterns, include, url
+from manager.views import EntryDetailView
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -14,5 +15,6 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
-    url(r'entry/', 'manager.views.entry', name='entry'),
+    url(r'^entry/(?P<pk>\d+)$', EntryDetailView.as_view(), name='Entry'),
+    url(r'addentry/', 'manager.views.entry', name='entry'),
 )
