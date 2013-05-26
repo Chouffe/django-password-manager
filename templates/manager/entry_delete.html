@@ -1,0 +1,10 @@
+Delete...
+
+<h1>Are you sure you wanna remove this?</h1>
+
+<p>{{ entry.title }}</p>
+
+<form method="post" action="">
+    {% csrf_token %}  <!-- Do not forget this!!-->
+    <input type="submit" value"yes delete me" />
+</form>

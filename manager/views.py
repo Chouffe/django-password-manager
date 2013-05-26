@@ -5,6 +5,7 @@ from manager.models import CryptoEngine, Entry
 from django.views.generic import DetailView
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
+from django.views.generic import DeleteView
 
 
 engine = CryptoEngine(master_key='testofanewawesomekey')
@@ -70,5 +71,13 @@ class EntryUpdate(UpdateView):
     # fields = ['title', 'url', 'username', 'comment', 'expires']
     template_name = 'manager/entry_update.html'
     form_class = EntryForm
+    # FIXME
+    success_url = '../../home'
+
+
+class EntryDelete(DeleteView):
+    model = Entry
+    context_object_name = 'entry'
+    template_name = 'manager/entry_delete.html'
     # FIXME
     success_url = '../../home'
