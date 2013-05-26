@@ -1,7 +1,6 @@
 from django.conf.urls.defaults import patterns, url
 from manager.views import EntryDetailView, EntryCreate, EntryUpdate, EntryDelete
 
-
 urlpatterns = patterns(
     '',
     url(r'^(?P<pk>\d+)$', EntryDetailView.as_view(), name='Entry details'),

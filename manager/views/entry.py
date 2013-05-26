@@ -11,7 +11,7 @@ engine = CryptoEngine(master_key='testofanewawesomekey')
 
 
 def template(request):
-    return render(request, 'manager/template.html')
+    return render(request, 'template.html')
 
 
 class EntryDetailView(DetailView):
@@ -19,7 +19,7 @@ class EntryDetailView(DetailView):
 
     model = Entry
     context_object_name = 'entry'
-    template_name = 'manager/entry_get.html'
+    template_name = 'entry_get.html'
 
     def get_context_data(self, **kwargs):
         context = super(EntryDetailView, self).get_context_data(**kwargs)
@@ -33,7 +33,7 @@ class EntryCreate(CreateView):
     """ Enables creation of new entries """
 
     model = Entry
-    template_name = 'manager/entry_create.html'
+    template_name = 'entry_create.html'
     form_class = EntryForm
     # success_url = todo
 
@@ -54,7 +54,7 @@ class EntryUpdate(UpdateView):
     """ Enables update of a given entry """
 
     model = Entry
-    template_name = 'manager/entry_update.html'
+    template_name = 'entry_update.html'
     form_class = EntryForm
     # FIXME
     success_url = '../../home'
@@ -65,6 +65,6 @@ class EntryDelete(DeleteView):
 
     model = Entry
     context_object_name = 'entry'
-    template_name = 'manager/entry_delete.html'
+    template_name = 'entry_delete.html'
     # FIXME
     success_url = '../../home'
