@@ -2,16 +2,17 @@ from django.db import models
 import hashlib
 from Crypto.Cipher import DES
 from Crypto import Random
+import base64
 
 
 class Entry(models.Model):
     title = models.CharField(max_length=200)
-    comment = models.TextField()
-    username = models.CharField(max_length=200)
-    url = models.CharField(max_length=200)
+    url = models.CharField(max_length=200, null=True, blank=True)
+    username = models.CharField(max_length=200, null=True, blank=True)
+    password = models.CharField(max_length=200, null=False, blank=False)
+    comment = models.TextField(null=True, blank=True)
     expires = models.DateField(null=True, blank=True)
     date = models.DateField(auto_now_add=True)
-    password = models.CharField(max_length=200)
 
 
 class CryptoEngine:
@@ -35,10 +36,10 @@ class CryptoEngine:
         return m.hexdigest()[:length]
 
     def encrypt(self, text):
-        return self.encryptor.encrypt(self._pad_text(text))
+        return base64.b64encode(self.encryptor.encrypt(self._pad_text(text)))
 
     def decrypt(self, text):
-        return self._unpad_text(self.encryptor.decrypt(text))
+        return self._unpad_text(self.encryptor.decrypt(base64.b64decode(text)))
 
     def _pad_text(self, text):
         padding = len(text) % self.block_length

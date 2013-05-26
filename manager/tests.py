@@ -74,8 +74,7 @@ class EncryptedPasswordsEntry(TestCase):
 
         for i, password in enumerate(self.texts):
 
-            password_after_encryption = base64.b64encode(
-                self.engine.encrypt(password))
+            password_after_encryption = self.engine.encrypt(password)
             title = 'My Twitter Account: ' + str(i)
             e = Entry(title=title, username='userName',
                       url='twitter.com', password=password_after_encryption,
@@ -84,8 +83,9 @@ class EncryptedPasswordsEntry(TestCase):
 
             # Fetched the saved entry
             f = Entry.objects.filter(title=title)[0]
-            password_decrypted = self.engine.decrypt(
-                base64.b64decode(f.password))
+            password_decrypted = self.engine.decrypt(f.password)
+            print password
+            print password_decrypted
 
             # self.assertEquals(password_after_encryption, f.password)
             self.assertEquals(password_after_encryption, f.password)
