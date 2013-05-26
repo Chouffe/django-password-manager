@@ -8,4 +8,5 @@ urlpatterns = patterns(
     url(r'^add$', EntryCreate.as_view(), name='entry add'),
     url(r'^update/(?P<pk>\d+)$', EntryUpdate.as_view(), name='entry update'),
     url(r'^delete/(?P<pk>\d+)$', EntryDelete.as_view(), name='entry delete'),
+    url(r'^template', 'manager.views.template', name='Template'),
 )

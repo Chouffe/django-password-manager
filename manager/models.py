@@ -87,26 +87,16 @@ class CryptoEngine:
         # self.decipher = AES.new(self.secret, AES.MODE_CBC, IV)
 
     def _pad(self, msg, block_size=BLOCK_SIZE, padding=PADDING):
-        """
-        *pad the text to be encrypted*
-        - appends a padding character to the end of the String
-        - until the string has block_size length
-
-        """
         return msg + ((block_size - len(msg) % block_size) * padding)
 
     def _depad(self, msg, padding=PADDING):
-        """depad the decrypted message"""
         return msg.rstrip(padding)
 
     def _get_secret(self, key):
-        """hases the key to MD5"""
-        return MD5.new(key).hexdigest()
+        return MD5.new(key).hexdigest()[:self.BLOCK_SIZE]
 
     def encrypt(self, msg):
-        """encrypts the message"""
         return encodestring(self.cipher.encrypt(self._pad(msg)))
 
     def decrypt(self, msg):
-        """decrypts the message"""
         return self._depad((self.decipher.decrypt(decodestring(msg))))

@@ -10,6 +10,10 @@ from django.views.generic import DeleteView
 engine = CryptoEngine(master_key='testofanewawesomekey')
 
 
+def template(request):
+    return render(request, 'manager/template.html')
+
+
 class EntryDetailView(DetailView):
     """ Details about a given entry """
 
