@@ -3,6 +3,7 @@ from manager.forms import EntryForm
 from django.shortcuts import render
 from manager.models import CryptoEngine, Entry
 from django.views.generic import DetailView
+from django.views.generic import ListView
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
 from django.views.generic import DeleteView
@@ -34,6 +35,14 @@ class EntryDetailView(DetailView):
         print decrypted
         context['decrypted_password'] = decrypted
         return context
+
+
+class EntryListView(ListView):
+
+    model = Entry
+    context_object_name = 'entries'
+    template_name = 'entry_list.html'
+    paginate_by = 200
 
 
 class EntryCreate(CreateView):

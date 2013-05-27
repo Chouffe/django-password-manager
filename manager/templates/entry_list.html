@@ -1,0 +1,24 @@
+{% extends "base_generic.html" %}
+{% load extra_tags %}
+{% block content %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Url</th>
+                <th>Username</th>
+                <th>Password</th>
+            </tr>
+        </thead>
+        {% for e in entries %}
+            <tr>
+                <td><a href="{% url 'update_entry' pk=e.id %}">{{ e.title }}</a></td>
+                <td><a href="http://{{ e.url }}" target="blank" >{{ e.url }}</a></td>
+                <td>{{ e.username }}</td>
+                <td>{{ e.password|decrypt:user.password }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+
