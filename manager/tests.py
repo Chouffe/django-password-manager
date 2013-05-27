@@ -7,18 +7,17 @@ import random
 class ModelTest(TestCase):
 
     now = datetime.now().date()
-    entry = None
 
     def setUp(self):
         e = Entry(title='Twitter', username='userName', url='twitter.com',
                   password='passssss', comment='no comment')
         c = Category(title='Internet', parent=None)
-        e.category = c
 
         self.entry = e
         self.category = c
 
         c.save()
+        e.category = c
         e.save()
 
     def test_create_entry(self):
@@ -27,6 +26,15 @@ class ModelTest(TestCase):
         e = e[0]
         self.assertEquals(e.expires, None)
         self.assertEquals(e.date, self.now)
+
+        # Entry without category
+        e2 = Entry(title='Test', password='password')
+        try:
+            e2.save()
+        except:
+            pass
+        else:
+            self.fail('Should not save an entry without category...')
 
     def test_change_entry(self):
 
@@ -69,32 +77,6 @@ class ModelTest(TestCase):
             e.category = category
 
 
-# class CryptoEngineTest(TestCase):
-#
-#     def setUp(self):
-#
-#         self.engine = CryptoEngine(master_key='mykeyisawesome!')
-#         self.block_length = 8
-#         self.texts = generate_texts(100)
-#
-#     def test_padding(self):
-#         for t in self.texts:
-#             padded_text = self.engine._pad_text(t)
-#             self.assertEquals(len(padded_text) % self.block_length, 0)
-#
-#     def test_unpadding(self):
-#         for p, t in zip([t + '    ' for t in self.texts], self.texts):
-#             self.assertEquals(t, self.engine._unpad_text(p))
-#
-#     def test_encryption(self):
-#         self.assertEquals(len(self.engine.key), self.block_length)
-#
-#     def test_decryption(self):
-#         for t in self.texts:
-#             cipher_text = self.engine.encrypt(t)
-#             self.assertEquals(self.engine.decrypt(cipher_text), t)
-
-
 class CryptoEngineTest(TestCase):
 
     def setUp(self):
@@ -108,7 +90,7 @@ class CryptoEngineTest(TestCase):
             padded_text = self.engine._pad(t)
             self.assertEquals(len(padded_text) % self.block_length, 0)
 
-    def test_unpadding(self):
+    def test_depadding(self):
         for p, t in zip([t + ''.join([self.engine.PADDING
                                       for i in xrange(random.randint(1, 10))])
                          for t in self.texts], self.texts):
@@ -128,6 +110,9 @@ class EncryptedPasswordsEntry(TestCase):
 
     def test_save_entry_with_encrypted_key(self):
 
+        c = Category(title='Internet')
+        c.save()
+
         for i, password in enumerate(self.texts):
 
             password_after_encryption = self.engine.encrypt(password)
@@ -135,15 +120,13 @@ class EncryptedPasswordsEntry(TestCase):
             e = Entry(title=title, username='userName',
                       url='twitter.com', password=password_after_encryption,
                       comment='no comment')
+            e.category = c
             e.save()
 
-            # Fetched the saved entry
+            # Fetches the saved entry
             f = Entry.objects.filter(title=title)[0]
             password_decrypted = self.engine.decrypt(f.password)
-            # print password
-            # print password_decrypted
 
-            # self.assertEquals(password_after_encryption, f.password)
             self.assertEquals(password_after_encryption, f.password)
             self.assertEquals(password_decrypted, password)
             f.delete()

@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from manager.forms import EntryForm
 from django.shortcuts import render
 from manager.models import CryptoEngine, Entry
@@ -10,6 +11,7 @@ from django.views.generic import DeleteView
 engine = CryptoEngine(master_key='testofanewawesomekey')
 
 
+@login_required
 def template(request):
     return render(request, 'base_generic.html')
 

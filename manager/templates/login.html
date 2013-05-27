@@ -1,0 +1,12 @@
+{% extends "base_generic.html" %}
+{% block content %}
+Form to login the user
+<form method="post" action="">
+    {% csrf_token %}
+    <p><label for="id_username">username:</label> <input id="id_username"
+    maxlength="200" name="username" type="text" /></p>
+    <p><label for="id_password">Password:</label> <input id="id_password"
+    maxlength="200" name="password" type="text" /></p>
+    <input type="submit" value="Submit" />
+</form>
+{% endblock %}
