@@ -50,6 +50,19 @@ class ModelTest(TestCase):
         self.entry.delete()
         self.assertEquals(len(Entry.objects.all()), 0)
 
+    def test_create_category(self):
+        t = 'uniqTitle'
+        c1 = Category(title=t)
+        c2 = Category(title=t)
+        c1.save()
+        try:
+            c2.save()
+        except:
+            pass
+        else:
+            self.fail('Should not have two categories with same title')
+
+
     def test_delete_category(self):
 
         category = Category(title='Cat')

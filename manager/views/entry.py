@@ -8,7 +8,12 @@ from django.views.generic import UpdateView
 from django.views.generic import DeleteView
 
 
-engine = CryptoEngine(master_key='testofanewawesomekey')
+engine = None
+
+if engine is not None:
+    if request.user.is_superuser:
+        print 'SuperUser!!!'
+        engine = CryptoEngine(master_key=request.user.password)
 
 
 @login_required
@@ -41,14 +46,18 @@ class EntryCreate(CreateView):
 
     def post(self, request, *args, **kwargs):
 
-        form = EntryForm(request.POST)
-        if form.is_valid():
-            entry = form.save(commit=False)
-            entry.password = engine.encrypt(form.cleaned_data['password'])
-            entry.save()
-            # return render(request, self.success_url, locals())
-        else:
-            form = EntryForm()
+        if request.user.is_superuser:
+            print 'SuperUser!!!'
+            engine = CryptoEngine(master_key=request.user.password)
+
+            form = EntryForm(request.POST)
+            if form.is_valid():
+                entry = form.save(commit=False)
+                entry.password = engine.encrypt(form.cleaned_data['password'])
+                entry.save()
+                # return render(request, self.success_url, locals())
+            else:
+                form = EntryForm()
         return render(request, self.template_name, locals())
 
 

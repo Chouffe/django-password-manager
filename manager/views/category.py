@@ -1,4 +1,5 @@
 from manager.models import Category
+from django.shortcuts import render
 from django.views.generic import ListView
 from django.views.generic import DetailView
 from django.views.generic import CreateView
@@ -7,12 +8,21 @@ from django.views.generic import DeleteView
 from manager.forms import CategoryForm
 
 
+# engine = None
+#
+# if engine is not None:
+#     if request.user.is_superuser:
+#         print 'SuperUser!!!'
+#         engine = CryptoEngine(master_key=request.user.password)
+
+
 class CategoryDetailView(DetailView):
     """ Details about a given entry """
 
     model = Category
     context_object_name = 'category'
     template_name = 'category_get.html'
+
 
 
 class CategoryListView(ListView):

@@ -1,9 +1,12 @@
 {% extends "base_generic.html" %}
+{% load extra_tags %}
 {% block content %}
     {% for cat in categories %}
         {{ cat.title }}
         {% for e in cat.entry_set.all %}
-            {{ e.title }}
+        {{ e.title }}<br />
+        {{ e.password }}<br />
+        {{ e.password|decrypt:user.password }}<br />
         {% endfor %}
     {% empty %}
         No categories...

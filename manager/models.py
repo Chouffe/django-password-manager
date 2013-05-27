@@ -22,7 +22,7 @@ class Entry(models.Model):
 
 class Category(models.Model):
 
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, unique=True)
     parent = models.ForeignKey('Category', null=True, blank=True)
 
     def __unicode__(self):
