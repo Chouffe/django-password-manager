@@ -13,6 +13,7 @@ urlpatterns = patterns(
     url(r'^template', 'manager.views.template', name='template'),
     url(r'^entry/', include('manager.urls.entry')),
     url(r'^category/', include('manager.urls.category')),
+    url(r'^api/', include('api.urls')),
 
     # Examples:
     # url(r'^password_manager/', include('password_manager.foo.urls')),
