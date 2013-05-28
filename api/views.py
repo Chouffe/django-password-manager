@@ -5,7 +5,7 @@ from manager.models import Entry
 import json
 
 
-# @login_required
+@login_required
 def get_entries(request):
 
     entries = Entry.objects.all()

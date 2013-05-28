@@ -1,8 +1,31 @@
 {% extends "base_generic.html" %}
+{% load extra_tags %}
 {% block content %}
-    <form action="" method="post">{% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Submit" />
+<div class="hero-unit">
+    <h2>Update the entry</h2>
+    <form action="" method="post">
+        {% csrf_token %}
+        {# {{ form.password.value|decrypt:user.password }} #}
+        {% for field in form %}
+            {% if field.html_name != 'password' %}
+                <p>
+                    {{ field.errors }}
+                    {{ field.label_tag }}
+                    {{ field }}
+                </p>
+            {% else %}
+                <p>
+                    {{ field.errors }}
+                    {{ field.label_tag }}
+                    {# {{ field }} #}
+                    <input id="id_password"
+                    maxlength="200" name="password" type="text"
+                    value="{{ form.password.value|decrypt:user.password }}" />
+                </p>
+            {% endif %}
+        {% endfor %}
+        {# {{ form.as_p }} #}
+        <input class="btn btn-primary" type="submit" value="Submit" />
     </form>
-    {{ message }}
+</div>
 {% endblock %}

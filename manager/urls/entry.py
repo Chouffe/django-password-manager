@@ -8,5 +8,7 @@ urlpatterns = patterns(
     url(r'^$', login_required(EntryListView.as_view()), name='details_entry'),
     url(r'^(?P<pk>\d+)$', login_required(EntryDetailView.as_view()), name='details_entry'),
     url(r'^add$', login_required(EntryCreate.as_view()), name='add_entry'),
+    url(r'^search/$', 'manager.views.entry.entry_search', name='search_entry'),
     url(r'^update/(?P<pk>\d+)$', login_required(EntryUpdate.as_view()), name='update_entry'),
     url(r'^delete/(?P<pk>\d+)$', login_required(EntryDelete.as_view()), name='delete_entry'),
+)
