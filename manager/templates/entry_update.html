@@ -18,9 +18,14 @@
                     {{ field.errors }}
                     {{ field.label_tag }}
                     {# {{ field }} #}
-                    <input id="id_password"
-                    maxlength="200" name="password" type="text"
-                    value="{{ form.password.value|decrypt:user.password }}" />
+                    <div class="input-append">
+                        <input id="id_password"
+                        maxlength="200" name="password" type="text"
+                        value="{{ form.password.value|decrypt:user.password }}" />
+                        <input id="length" type="text" class="input-mini" value="25">
+                        <button class="btn" type="button"
+                            id="generate"><i class="icon-cog"></i></button>
+                    </div>
                 </p>
             {% endif %}
         {% endfor %}
