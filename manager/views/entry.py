@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+import datetime
 from django.shortcuts import redirect
 from manager.forms import EntryForm
 from django.shortcuts import render
@@ -79,8 +80,9 @@ class EntryUpdate(UpdateView):
 
             form = EntryForm(request.POST)
             if form.is_valid():
-                # FIXME: saved twice...
                 entry = form.save(commit=False)
+                entry.id = kwargs['pk']
+                entry.date = datetime.date.today()
                 entry.password = engine.encrypt(form.cleaned_data['password'])
                 entry.save()
                 return redirect('home')
