@@ -14,6 +14,7 @@ def get_entries(request):
     entries = Entry.objects.all()
     response_data = [e.title for e in entries]
     response_data.sort()
+    response_data = list(set(response_data))
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 

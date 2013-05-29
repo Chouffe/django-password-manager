@@ -1,6 +1,8 @@
 $(function() {
     loadTypeAhead();
     $('#generate').click(loadGeneratedPassword);
+    hidePasswords();
+    $('#show-passwords').click(showPasswords);
 });
 
 function loadTypeAhead() {
@@ -24,4 +26,12 @@ function loadGeneratedPassword() {
         console.log(data);
         fillInputField('#id_password', data);
     });
+}
+
+function hidePasswords() {
+    $('.password-cell').css({'color': 'white'});
+}
+
+function showPasswords() {
+    $('.password-cell').css({'color': 'black'});
 }

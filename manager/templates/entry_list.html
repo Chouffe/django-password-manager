@@ -1,21 +1,34 @@
 {% extends "base_generic.html" %}
 {% load extra_tags %}
 {% block content %}
-    <table class="table table-bordered">
+    <table class="table table-striped">
         <thead>
             <tr>
+                <th>#</th>
                 <th>Title</th>
                 <th>Url</th>
                 <th>Username</th>
-                <th>Password</th>
+                <th>Expires</th>
+                <th id="show-passwords">Password <i class=" pull-right icon-eye-open"></i></th>
             </tr>
         </thead>
         {% for e in entries %}
             <tr>
-                <td><a href="{% url 'update_entry' pk=e.id %}">{{ e.title }}</a></td>
+                <td>
+                    <a class="" href="{% url 'update_entry' pk=e.id %}"><i
+                            class="icon-cog"></i></a>
+                </td>
+                <td>
+                    {{ e.title|capfirst }}
+                </td>
                 <td><a href="http://{{ e.url }}" target="blank" >{{ e.url }}</a></td>
                 <td>{{ e.username }}</td>
-                <td>{{ e.password|decrypt:user.password }}</td>
+                <td>{{ e.expires }}</td>
+                <td class="password-cell">
+                    {{ e.password|decrypt:user.password }}
+                    <a class="pull-right" href="{% url 'delete_entry' pk=e.id %}"><i
+                            class="icon-remove"></i></a>
+                </td>
             </tr>
         {% endfor %}
     </table>

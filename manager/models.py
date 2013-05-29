@@ -3,7 +3,6 @@ from Crypto.Hash import MD5
 from base64 import encodestring, decodestring
 from django.db import models
 from Crypto import Random
-import datetime
 
 
 class Entry(models.Model):
