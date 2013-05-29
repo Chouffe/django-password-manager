@@ -6,9 +6,9 @@ class EntryForm(forms.ModelForm):
     class Meta:
         model = Entry
         fields = ('title', 'url', 'username', 'password', 'comment', 'expires', 'category')
-        # widgets = {
-        #     'password': forms.PasswordInput(),
-        # }
+        widgets = {
+            'expires': forms.TextInput(attrs={'class': 'datepicker'}),
+        }
 
 
 class CategoryForm(forms.ModelForm):

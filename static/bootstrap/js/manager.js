@@ -1,8 +1,15 @@
 $(function() {
+    var nowTemp = new Date();
+    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
     loadTypeAhead();
     $('#generate').click(loadGeneratedPassword);
     hidePasswords();
     $('#show-passwords').click(showPasswords);
+    $('.datepicker').datepicker({
+        onRender: function(date) {
+                return date.valueOf() < now.valueOf() ? 'disabled' : '';
+                  }
+    });
 });
 
 function loadTypeAhead() {

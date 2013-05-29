@@ -23,7 +23,13 @@
                 </td>
                 <td><a href="http://{{ e.url }}" target="blank" >{{ e.url }}</a></td>
                 <td>{{ e.username }}</td>
-                <td>{{ e.expires }}</td>
+                <td>
+                    <div title="{{ e.expires|progressbar_days_left }}" class="progress {{ e.expires|progressbar_class }}">
+                        <div class="bar "
+                            style="width: {{ e.expires|progressbar_width }}%;">
+                        </div>
+                    </div>
+                </td>
                 <td class="password-cell">
                     {{ e.password|decrypt:user.password }}
                     <a class="pull-right" href="{% url 'delete_entry' pk=e.id %}"><i
