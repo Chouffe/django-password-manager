@@ -11,12 +11,12 @@ from django.views.generic import DeleteView
 from django.http import HttpResponse
 
 
-engine = None
-
-if engine is not None:
-    if request.user.is_superuser:
-        print 'SuperUser!!!'
-        engine = CryptoEngine(master_key=request.user.password)
+# engine = None
+#
+# if engine is not None:
+#     if request.user.is_superuser:
+#         print 'SuperUser!!!'
+#         engine = CryptoEngine(master_key=request.user.password)
 
 
 class EntryDetailView(DetailView):
@@ -96,7 +96,7 @@ class EntryDelete(DeleteView):
     context_object_name = 'entry'
     template_name = 'entry_delete.html'
     # FIXME
-    success_url = '../../home'
+    success_url = '/'
 
 
 def entry_search(request):

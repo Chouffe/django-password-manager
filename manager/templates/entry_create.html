@@ -1,10 +1,33 @@
 {% extends "base_generic.html" %}
+{% load extra_tags %}
 {% block content %}
 <div class="hero-unit">
     <h2>Add an entry</h2>
-    <form action="" method="post">
+    <form action="{% url 'add_entry' %}" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {% for field in form %}
+            {% if field.html_name != 'password' %}
+                <p>
+                    {{ field.errors }}
+                    {{ field.label_tag }}
+                    {{ field }}
+                </p>
+            {% else %}
+                <p>
+                    {{ field.errors }}
+                    {{ field.label_tag }}
+                    <div class="input-append">
+                        {{ field }}
+                        <input id="length" type="text" class="input-mini" value="25">
+                        <button class="btn" type="button"
+                            id="generate"><i class="icon-cog"></i></button>
+                    </div>
+                    {# <a class="btn btn-primary" href="#" #}
+                    {#     id="generate">Generate</a> #}
+                </p>
+            {% endif %}
+        {% endfor %}
+        {# {{ form.as_p }} #}
         <input class="btn btn-primary" type="submit" value="Submit" />
     </form>
 </div>

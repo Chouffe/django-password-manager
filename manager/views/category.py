@@ -6,6 +6,7 @@ from django.views.generic import CreateView
 from django.views.generic import UpdateView
 from django.views.generic import DeleteView
 from manager.forms import CategoryForm
+from django.core.urlresolvers import reverse
 
 
 # engine = None
@@ -39,7 +40,12 @@ class CategoryCreate(CreateView):
     model = Category
     template_name = 'category_create.html'
     form_class = CategoryForm
-    # success_url = todo
+    # success_url = lazy(reverse, str)("home")
+    success_url = '/'
+    # success_url = reverse('home')
+
+    # def get_success_url(self):
+    #     return reverse('home')
 
 
 class CategoryUpdate(UpdateView):
@@ -48,8 +54,7 @@ class CategoryUpdate(UpdateView):
     model = Category
     template_name = 'category_update.html'
     form_class = CategoryForm
-    # FIXME
-    success_url = '../../home'
+    success_url = '/'
 
 
 class CategoryDelete(DeleteView):
@@ -58,5 +63,4 @@ class CategoryDelete(DeleteView):
     model = Category
     context_object_name = 'category'
     template_name = 'category_delete.html'
-    # FIXME
-    success_url = '../../home'
+    success_url = '/'
