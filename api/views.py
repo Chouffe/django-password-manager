@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render
 from django.http import HttpResponse
 from manager.models import Entry
@@ -7,18 +8,21 @@ import json
 
 
 @login_required
+@user_passes_test(lambda u: u.is_superuser)
 def get_entries(request):
 
     entries = Entry.objects.all()
     response_data = [e.title for e in entries]
+    response_data.sort()
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
 @login_required
+@user_passes_test(lambda u: u.is_superuser)
 def get_random_key(request):
 
     generator = Generator()
-    if request.GET['length']:
+    if 'length' in request.GET:
         length = int(request.GET['length'])
         generator.length = length
 
