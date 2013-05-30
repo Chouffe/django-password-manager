@@ -3,6 +3,7 @@ from Crypto.Hash import MD5
 from base64 import encodestring, decodestring
 from django.db import models
 from Crypto import Random
+import json
 
 
 class Entry(models.Model):
@@ -18,6 +19,19 @@ class Entry(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    def dict(self):
+        dic = {}
+        dic['title'] = self.title
+        dic['url'] = self.url
+        dic['username'] = self.username
+        dic['password'] = self.password
+        dic['comment'] = self.comment
+        dic['date'] = str(self.date)
+        dic['expires'] = str(self.expires)
+        dic['category'] = self.category.title
+        return dic
+
 
 
 class Category(models.Model):

@@ -1,0 +1,80 @@
+[
+{
+  "pk": 2, 
+  "model": "manager.entry", 
+  "fields": {
+    "username": "arthur", 
+    "comment": "", 
+    "category": 1, 
+    "title": "twitter", 
+    "url": "", 
+    "expires": null, 
+    "date": "2013-05-29", 
+    "password": "92Eugh5Z8np8et6qlEqYUtV6gRErNjQqK9wLnJjOzpE=\n"
+  }
+},
+{
+  "pk": 5, 
+  "model": "manager.entry", 
+  "fields": {
+    "username": "user", 
+    "comment": "", 
+    "category": 1, 
+    "title": "facebook", 
+    "url": "www.facebook.com", 
+    "expires": "2013-07-03", 
+    "date": "2013-05-29", 
+    "password": "5Sz/TfpKOT9R5uN5rdlDxajiw+Ljh0kfFvbQYtsqr0I=\n"
+  }
+},
+{
+  "pk": 6, 
+  "model": "manager.entry", 
+  "fields": {
+    "username": "chouffe2", 
+    "comment": "", 
+    "category": 1, 
+    "title": "github", 
+    "url": "github.com", 
+    "expires": null, 
+    "date": "2013-05-29", 
+    "password": "9Tn8ESarmFGTlseZBujczrbEeEcjk9phgs5cnZQm9WE=\n"
+  }
+},
+{
+  "pk": 7, 
+  "model": "manager.entry", 
+  "fields": {
+    "username": "arthur", 
+    "comment": "", 
+    "category": 1, 
+    "title": "jobvite", 
+    "url": "", 
+    "expires": "2013-05-31", 
+    "date": "2013-05-29", 
+    "password": "zOHE8cA2TmZW4IwnQ8Ee8JQpCoDLNvmdtxPYZnGfclw=\n"
+  }
+},
+{
+  "pk": 8, 
+  "model": "manager.entry", 
+  "fields": {
+    "username": "arthur", 
+    "comment": "", 
+    "category": 1, 
+    "title": "Youtube", 
+    "url": "youtube.com", 
+    "expires": null, 
+    "date": "2013-05-29", 
+    "password": "AsK6RbzxpUNbsAEII93TyY/fpK+CxfzVe86HFNC5CAY=\n"
+  }
+},
+{
+  "pk": 1, 
+  "model": "manager.category", 
+  "fields": {
+    "parent": null, 
+    "title": "Internet!"
+  }
+}
+]

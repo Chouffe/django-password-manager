@@ -3,22 +3,24 @@ from django.test.client import Client
 import json
 import random
 from manager.models import Entry, Category
-from django.contrib.auth import authenticate
 
 
-# TODO: add fixture to test login_require
 class APITest(TestCase):
 
     USERNAME = 'admin'
     PASSWORD = 'admin'
-    fixtures = ['admin_user.json']
+    fixtures = ['admin_user.json', 'initial_data.json']
     API_pages = [{'page': '/api/entries.json', 'parameters': {}},
-                 {'page': '/api/random_key.json', 'parameters': {'length': 100}}]
+                 {'page': '/api/random_key.json', 'parameters':
+                  {'length': 100}},
+                 {'page': '/api/search.json', 'parameters': {'title': ''}}
+                 ]
 
     def setUp(self):
         self.client = Client()
         self.category = Category(title='cat')
         self.category.save()
+        self.entries = Entry.objects.all()
 
     def test_authentification(self):
         # Without auth
@@ -39,7 +41,7 @@ class APITest(TestCase):
 
         data = json.loads(response.content)
         self.assertTrue(isinstance(data, list))
-        self.assertEquals(len(data), 0)
+        self.assertEquals(len(data), len(self.entries))
         number_of_entries = 100
         entries = self._generate_entries(number_of_entries, self.category)
 
@@ -51,7 +53,7 @@ class APITest(TestCase):
 
         data = json.loads(response.content)
         self.assertTrue(isinstance(data, list))
-        self.assertEquals(len(data), number_of_entries)
+        self.assertEquals(len(data), number_of_entries + len(self.entries))
 
     def test_get_random_key(self):
 
@@ -63,16 +65,28 @@ class APITest(TestCase):
             data = json.loads(response.content)
             self.assertEquals(len(data), q['length'])
 
+    def test_get_entry_search(self):
+
+        self._authentificate()
+        for e in self.entries:
+            s = {'title': e.title}
+            response = self.client.get('/api/search.json', s)
+            self.assertEquals(response.status_code, 200)
+            data = json.loads(response.content)
+            self.assertEquals(len(data), 1)
+
     def _generate_entries(self, number, category):
         entries = []
         for i in xrange(number):
-            entries.append(Entry(title=str(i), password=str(i), category=category))
+            entries.append(Entry(title=str(i),
+                                 password=str(i),
+                                 category=category))
         return entries
 
     def _generate_queries(self, number):
         queries = []
         for i in xrange(number):
-            queries.append({'length': random.randint(1,100)})
+            queries.append({'length': random.randint(1, 100)})
         return queries
 
     def _authentificate(self):
