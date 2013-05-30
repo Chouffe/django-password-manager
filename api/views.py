@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render
 from django.http import HttpResponse
-from manager.models import Entry, CryptoEngine
+from manager.models import Entry, CryptoEngine, Category
 from generator.models import Generator
 import json
 
@@ -36,11 +36,17 @@ def get_random_key(request):
 def get_search(request):
 
     engine = CryptoEngine(master_key=request.user.password)
-
     entries = None
+
     if 'title' in request.GET:
         search = str(request.GET['title'])
         entries = Entry.objects.filter(title__contains=search)
+
+    elif 'category' in request.GET:
+        search = str(request.GET['category'])
+        categories = Category.objects.filter(title__contains=search)
+        entries = [e for c in categories for e in c.entry_set.all()]
+
     else:
         entries = Entry.objects.all()
 
@@ -49,5 +55,4 @@ def get_search(request):
         e.password = engine.decrypt(e.password)
 
     response_data = [e.dict() for e in entries]
-    # print response_data
     return HttpResponse(json.dumps(response_data), content_type="application/json")

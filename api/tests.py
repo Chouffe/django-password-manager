@@ -21,6 +21,7 @@ class APITest(TestCase):
         self.category = Category(title='cat')
         self.category.save()
         self.entries = Entry.objects.all()
+        self.categories = Category.objects.all()
 
     def test_authentification(self):
         # Without auth
@@ -67,6 +68,7 @@ class APITest(TestCase):
 
     def test_get_entry_search(self):
 
+        # test the search on the titles
         self._authentificate()
         for e in self.entries:
             s = {'title': e.title}
@@ -74,6 +76,15 @@ class APITest(TestCase):
             self.assertEquals(response.status_code, 200)
             data = json.loads(response.content)
             self.assertEquals(len(data), 1)
+
+        # Test the search on the categories
+        for c in self.categories:
+            s = {'category': c.title}
+            response = self.client.get('/api/search.json', s)
+            self.assertEquals(response.status_code, 200)
+            data = json.loads(response.content)
+            self.assertEquals(len(data), len(c.entry_set.all()))
+
 
     def _generate_entries(self, number, category):
         entries = []
