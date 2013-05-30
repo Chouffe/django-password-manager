@@ -1,6 +1,14 @@
 {% extends "base_generic.html" %}
 {% load extra_tags %}
+{% block sidebar %}
+    <ul class="nav nav-list bs-docs-sidenav">
+        {% for cat in categories %}
+        <li><a href="#{{ cat.id }}"><i class="icon-chevron-right"></i> {{ cat.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}
 {% block content %}
+    {% if entries %}
     <table class="table table-striped">
         <thead>
             <tr>
@@ -24,7 +32,9 @@
                 <td><a href="http://{{ e.url }}" target="blank" >{{ e.url }}</a></td>
                 <td>{{ e.username }}</td>
                 <td>
-                    <div title="{{ e.expires|progressbar_days_left }}" class="progress {{ e.expires|progressbar_class }}">
+                    <div title="{{ e.expires|progressbar_days_left }}"
+                        class="progress {{ e.expires|progressbar_class }}
+                        progress-striped">
                         <div class="bar "
                             style="width: {{ e.expires|progressbar_width }}%;">
                         </div>
@@ -38,6 +48,7 @@
             </tr>
         {% endfor %}
     </table>
+    {% endif %}
 {% endblock %}
 
 

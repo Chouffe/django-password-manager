@@ -17,6 +17,9 @@ class Entry(models.Model):
     date = models.DateField(auto_now_add=True)
     category = models.ForeignKey('Category')
 
+    class Meta:
+        ordering = ('title', 'date')
+
     def __unicode__(self):
         return self.title
 
@@ -31,7 +34,6 @@ class Entry(models.Model):
         dic['expires'] = str(self.expires)
         dic['category'] = self.category.title
         return dic
-
 
 
 class Category(models.Model):

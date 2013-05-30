@@ -1,4 +1,5 @@
 from manager.models import Category
+from django.contrib import messages
 from django.shortcuts import render
 from django.views.generic import ListView
 from django.views.generic import DetailView
@@ -7,14 +8,6 @@ from django.views.generic import UpdateView
 from django.views.generic import DeleteView
 from manager.forms import CategoryForm
 from django.core.urlresolvers import reverse
-
-
-# engine = None
-#
-# if engine is not None:
-#     if request.user.is_superuser:
-#         print 'SuperUser!!!'
-#         engine = CryptoEngine(master_key=request.user.password)
 
 
 class CategoryDetailView(DetailView):
@@ -40,12 +33,11 @@ class CategoryCreate(CreateView):
     model = Category
     template_name = 'category_create.html'
     form_class = CategoryForm
-    # success_url = lazy(reverse, str)("home")
     success_url = '/'
-    # success_url = reverse('home')
 
-    # def get_success_url(self):
-    #     return reverse('home')
+    def post(self, request, *args, **kwargs):
+        messages.add_message(request, messages.INFO, "Category added")
+        return super(CategoryCreate, self).post(request, *args, **kwargs)
 
 
 class CategoryUpdate(UpdateView):
@@ -56,6 +48,10 @@ class CategoryUpdate(UpdateView):
     form_class = CategoryForm
     success_url = '/'
 
+    def post(self, request, *args, **kwargs):
+        messages.add_message(request, messages.INFO, "Category updated")
+        return super(CategoryUpdate, self).post(request, *args, **kwargs)
+
 
 class CategoryDelete(DeleteView):
     """ Enables deletion of a given entry """
@@ -64,3 +60,7 @@ class CategoryDelete(DeleteView):
     context_object_name = 'category'
     template_name = 'category_delete.html'
     success_url = '/'
+
+    def post(self, request, *args, **kwargs):
+        messages.add_message(request, messages.WARNING, "Category deleted")
+        return super(CategoryDelete, self).post(request, *args, **kwargs)

@@ -1,7 +1,6 @@
 {% extends "base_generic.html" %}
 {% block content %}
 <div class="hero-unit">
-    <h2>Add a new category</h2>
     <form action="" method="post">
         {% csrf_token %}
         {{ form.as_p }}

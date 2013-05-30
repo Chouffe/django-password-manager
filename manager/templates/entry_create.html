@@ -2,7 +2,6 @@
 {% load extra_tags %}
 {% block content %}
 <div class="hero-unit">
-    <h2>Add an entry</h2>
     <form action="{% url 'add_entry' %}" method="post">
         {% csrf_token %}
         {% for field in form %}

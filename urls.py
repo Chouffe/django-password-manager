@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 admin.autodiscover()
 urlpatterns = patterns(
     '',
-    url(r'^$', login_required(EntryListView.as_view()), name='home'),
+    url(r'^$', 'manager.views.entry_search', name='home'),
     url(r'^login/$', 'manager.views.loginView', name='login'),
     url(r'^logout/$', 'manager.views.logoutView', name='logout'),
     url(r'^entry/', include('manager.urls.entry')),
