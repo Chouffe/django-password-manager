@@ -8,4 +8,5 @@ urlpatterns = patterns(
     url(r'^entries.json$', 'api.views.get_entries', name='api_get_entries'),
     url(r'random_key.json$', 'api.views.get_random_key', name='api_get_entries'),
     url(r'search.json$', 'api.views.get_search', name='api_get_search'),
+    url(r'entry/add$', 'api.views.post_entry_add', name='api_post_entry_add'),
 )

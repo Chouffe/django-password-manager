@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from manager.models import Entry, CryptoEngine, Category
 from generator.models import Generator
 import json
+import datetime
 
 
 @login_required
@@ -56,3 +57,41 @@ def get_search(request):
 
     response_data = [e.dict() for e in entries]
     return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def post_entry_add(request):
+
+    engine = CryptoEngine(master_key=request.user.password)
+
+    e = None
+    attributes = set(['title', 'password', 'category'])
+    if attributes <= set(request.POST.keys()):
+
+        e = Entry(title=request.POST['title'],
+                  password=request.POST['password'])
+
+        for k, v in request.POST.items():
+            if k == 'username':
+                e.username = v
+            elif k == 'url':
+                e.url = v
+            elif k == 'comment':
+                e.comment = v
+            elif k == 'expires':
+                # date formated: m/d/Y
+                e.expires = datetime.datetime.strptime(v, "%m/%d/%Y").date()
+            elif k == 'category':
+                c = Category.objects.filter(id=int(v))
+                if len(c) == 0:
+                    return HttpResponse(0)
+                else:
+                    e.category_id = int(v)
+        try:
+            e.save()
+            return HttpResponse(1)
+        except:
+            return HttpResponse(0)
+    else:
+        return HttpResponse(0)
