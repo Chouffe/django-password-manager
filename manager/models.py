@@ -25,6 +25,7 @@ class Entry(models.Model):
 
     def dict(self):
         dic = {}
+        dic['id'] = self.id
         dic['title'] = self.title
         dic['url'] = self.url
         dic['username'] = self.username

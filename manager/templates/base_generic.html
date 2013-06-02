@@ -46,7 +46,8 @@
                                     icon-white"></i> {# Logout #}</a></li>
                         </ul>
 
-                        <form method="post" action="{% url 'home' %}" class="navbar-search pull-right">
+                        <form method="post" action="{% url 'home' %}"
+                            id="form-search" class="navbar-search pull-right">
                             {% csrf_token %}  <!-- Do not forget this!!-->
                             <input name="search" id="search" type="text" class="search-query"
                             placeholder="Search" data-provide="typeahead"

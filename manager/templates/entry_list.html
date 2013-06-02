@@ -18,7 +18,7 @@
                     <th>Url</th>
                     <th>Username</th>
                     <th>Expires</th>
-                    <th id="show-passwords">Password <i class="pull-right icon-eye-open"></i></th>
+                    <th>Password</th>
                 </tr>
             </thead>
             <tbody id="tbody-entries">
@@ -42,8 +42,10 @@
                             </div>
                         </div>
                     </td>
-                    <td class="password-cell">
-                        {{ e.password|decrypt:user.password }}
+                    <td class="password-cell" onclick="toggleVisibility(this);">
+                        <span style="visibility:hidden">
+                            {{ e.password|decrypt:user.password }}
+                        </span>
                         <a class="pull-right" href="{% url 'delete_entry' pk=e.id %}"><i
                                 class="icon-remove"></i></a>
                     </td>
