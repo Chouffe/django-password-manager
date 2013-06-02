@@ -10,6 +10,18 @@ $(function() {
                 return date.valueOf() < now.valueOf() ? 'disabled' : '';
                   }
     });
+    // $('#entry_create').click(function() {
+    //     $.post("/api/entry/add").done(function(data) {
+    //         alert(data);
+    //     })
+    //     .fail(function() { alert('error'); })
+    //     .always(function() { alert('always'); });
+    //     $.post("/api/entry/add", { title: "John", password: "2pm", category: 1 } );
+    //     .done(function(data) {
+    //         alert(data);
+    //     });
+    //     alert('yo');
+    // });
 });
 
 
