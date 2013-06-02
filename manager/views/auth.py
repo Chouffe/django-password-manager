@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
@@ -26,6 +27,7 @@ def loginView(request):
 
 
 @login_required
+@user_passes_test(lambda u: u.is_superuser)
 def logoutView(request):
     logout(request)
     return redirect('home')

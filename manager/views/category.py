@@ -18,7 +18,6 @@ class CategoryDetailView(DetailView):
     template_name = 'category_get.html'
 
 
-
 class CategoryListView(ListView):
 
     model = Category
