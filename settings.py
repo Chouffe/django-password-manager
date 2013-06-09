@@ -1,4 +1,5 @@
 import os
+import dj_database_url
 # Django settings for password_manager project.
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
@@ -107,7 +108,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'password_manager.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_ROOT, "manager/templates"),
@@ -156,3 +157,7 @@ LOGGING = {
         },
     }
 }
+
+
+DATABASES['default'] = dj_database_url.config(default=os.environ.get(
+        "DATABASE_URL", "sqlite:///" + os.path.join(PROJECT_ROOT, "database.db")))

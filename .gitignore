@@ -4,3 +4,4 @@
 .ropeproject
 python
 initial_data.json
+*.db
