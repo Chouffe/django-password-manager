@@ -1,0 +1,9 @@
+Django==1.5.1
+argparse==1.2.1
+distribute==0.6.34
+dj-database-url==0.2.1
+mock==1.0.1
+psycopg2==2.5
+pycrypto==2.6
+selenium==2.33.0
+wsgiref==0.1.2
