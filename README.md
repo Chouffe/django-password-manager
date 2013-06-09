@@ -1,7 +1,7 @@
 Password Manager
 =======
 
-Enables password Management through one Master Key and via DES 256 encryption
+Enables password Management through one Master Key and via AES 256 encryption
 The passwords are encrypted into the DB on the server and only the provided key
 when logged in can decrypt them.
 
