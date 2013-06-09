@@ -10,7 +10,7 @@ class APITest(TestCase):
 
     USERNAME = 'admin'
     PASSWORD = 'admin'
-    fixtures = ['admin_user.json', 'initial_data.json']
+    fixtures = ['admin_user.json', 'data.json']
     API_pages = [{'page': '/api/entries.json', 'method': 'get',
                   'parameters': {}},
                  {'page': '/api/random_key.json', 'method': 'get',

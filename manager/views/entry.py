@@ -121,9 +121,10 @@ def entry_search(request):
             search = request.POST['search']
         else:
             entries = Entry.objects.all()
+
+        if len(entries) == 0:
+            messages.add_message(request, messages.WARNING, u'No entries related to {}'.format(request.POST['search']))
     else:
         entries = Entry.objects.all()
-    if len(entries) == 0:
-        messages.add_message(request, messages.WARNING, u'No entries related to {}'.format(request.POST['search']))
 
     return render(request, 'entry_list.html', locals())

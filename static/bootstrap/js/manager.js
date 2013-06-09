@@ -55,7 +55,7 @@ function fillEntries(entries) {
         $table
         .append('<thead>').children('thead')
         .append('<tr />').children('tr')
-        .append('<th>#</th><th>Title</th><th>Url</th><th>Username</th><th>Expires</th><th id="show-passwords">Password <i class="pull-right icon-eye-open"></i></th>');
+        .append('<th>#</th><th>Title</th><th>Url</th><th>Username</th><th>Expires</th><th id="show-passwords">Password</th>');
 
         //tbody
         var $tbody = $table.append('<tbody />').children('tbody');
@@ -87,18 +87,21 @@ function progress_bar_generate(date_string) {
 
 function progress_bar_days_left(date_string) {
 
-    var nowTemp = new Date();
-    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
-    var data = date_string.split('-');
-    // console.log(data);
-    var expires = new Date(parseInt(data[0]), parseInt(data[1]), parseInt(data[2]));
-    var time = expires.getTime() - now.getTime();
-    var one_day = 1000*60*60*24;
-    // console.log(expires);
     if (date_string == 'None') {
         return 'Never';
     }
-    return time / one_day;
+    else {
+        var nowTemp = new Date();
+        var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+        var data = date_string.split('-');
+        var expires = new Date(parseInt(data[0]), parseInt(data[1]-1), parseInt(data[2]));
+        // console.log(data);
+        // console.log(now);
+        // console.log(expires);
+        var time = expires.getTime() - now.getTime();
+        var one_day = 1000*60*60*24;
+        return time / one_day;
+    }
 }
 
 function progress_bar_width(date_string) {

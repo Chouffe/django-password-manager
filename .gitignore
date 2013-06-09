@@ -3,3 +3,4 @@
 *.sqlite
 .ropeproject
 python
+initial_data.json
